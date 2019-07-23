@@ -61,10 +61,7 @@
             }).then(function (response) {
                 console.log(response);
                 results = response.data;
-                //   var m = $("<div>");
-                //   m.addClass("col-3");
-                //   m.html("<img src=" + response.Poster + " height=150px>");
-                //   m.appendTo(".movies-view");
+               
                 renderGifs();
             });
 
@@ -88,16 +85,22 @@
                 var gifDiv = $("<div>");
 
                 var rating = results[i].rating;
-
                 var p = $("<p>").text("Rating: " + rating);
-
+                    
                 var personImage = $("<img>");
-                personImage.attr("src", results[i].images.fixed_height.url);
-
+                personImage.attr("src", results[i].images.fixed_height_still.url);
+                
+                personImage.attr("data-still", results[i].images.fixed_height_still.url);
+                personImage.attr("data-animate", results[i].images.fixed_height.url);
+                personImage.attr("data-state", "still");
+                personImage.attr("class", "still");
+                
+               console.log(results[i].images.fixed_height_still.url);
+                gifDiv.addClass("gif");
                 gifDiv.prepend(p);
                 gifDiv.prepend(personImage);
 
-                $("#gifs-appear-here").prepend(gifDiv);
+                $(".movies-view").prepend(gifDiv);
             }
         }
 
@@ -108,6 +111,25 @@
             movies.push(movie);
             renderButtons();
 
+        });
+
+
+
+
+        
+
+
+        $(document).on("click", ".still", function (event) {
+
+            var state = $(this).attr("data-state");
+            console.log(state);
+            if (state == "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
         });
 
 
