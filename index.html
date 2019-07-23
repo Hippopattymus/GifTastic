@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Favorite Movies</title>
+    <style type="text/css">
+        button,
+        div,
+        form,
+        input {
+            margin: 10px;
+        }
+    </style>
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>(T)GIF </h1>
+
+        <!-- Rendered buttons will get dumped here  -->
+        <div id="buttons-view"></div>
+
+        <form id="movie-form">
+            <label for="movie-input">Gif Time</label>
+            <input type="text" id="movie-input"><br>
+
+            <!-- Button triggers new movie to be added -->
+            <input id="add-movie" type="submit" value="Add a Movie, Yo!">
+        </form>
+
+        <!-- Movies will get dumped Here -->
+        <div class="movies-view">
+            <h2>gif display</h2>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
+        var results;
+
+        function displayMovieInfo() {
+
+            var movie = $(this).attr("data-name");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+                movie + "&api_key=S0s43WOAT4jzNdL4GICYdNrVfDl0MWMH&limit=10";
+
+
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+                results = response.data;
+                //   var m = $("<div>");
+                //   m.addClass("col-3");
+                //   m.html("<img src=" + response.Poster + " height=150px>");
+                //   m.appendTo(".movies-view");
+                renderGifs();
+            });
+
+
+        }
+
+        function renderButtons() {
+            $("#buttons-view").empty();
+            for (var i = 0; i < movies.length; i++) {
+                var a = $("<button>");
+                a.addClass("movie");
+                //a.addClass("col-3");
+                a.attr("data-name", movies[i]);
+                a.text(movies[i]);
+                $("#buttons-view").append(a);
+            }
+        }
+
+        function renderGifs() {
+            for (var i = 0; i < results.length; i++) {
+                var gifDiv = $("<div>");
+
+                var rating = results[i].rating;
+
+                var p = $("<p>").text("Rating: " + rating);
+
+                var personImage = $("<img>");
+                personImage.attr("src", results[i].images.fixed_height.url);
+
+                gifDiv.prepend(p);
+                gifDiv.prepend(personImage);
+
+                $("#gifs-appear-here").prepend(gifDiv);
+            }
+        }
+
+
+        $("#add-movie").on("click", function (event) {
+            event.preventDefault();
+            var movie = $("#movie-input").val();
+            movies.push(movie);
+            renderButtons();
+
+        });
+
+
+        $(document).on("click", ".movie", displayMovieInfo);
+
+
+        renderButtons();
+    </script>
+    </div>
+</body>
+
+</html>
