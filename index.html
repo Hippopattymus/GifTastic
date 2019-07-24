@@ -13,30 +13,46 @@
         }
     </style>
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 
 </head>
 
 <body>
+    <div class="container jumbotron mb-3 pb-3 pt-3"> 
+        <div class="row">
+            <div class="col-8">
+                    <h1>Uplifting GIFs </h1>
+                    <p style= "margin-left: 25px;">for when the code is hard and you feel bad</p>
+            </div>
 
-    <div class="container">
-        <h1>(T)GIF </h1>
+            <div class="col">
+                    <form id="movie-form">
+                            <label for="movie-input">Search</label>
+                            <input type="text" id="movie-input"><br>
+                
+                            <!-- Button triggers new movie to be added -->
+                            <input id="add-movie" class = "bg-info rounded ml-5" type="submit" value="Submit">
+                        </form>
+            </div>
+            <div id="buttons-view" class = "col-12"></div>
+            
 
-        <!-- Rendered buttons will get dumped here  -->
-        <div id="buttons-view"></div>
 
-        <form id="movie-form">
-            <label for="movie-input">Gif Time</label>
-            <input type="text" id="movie-input"><br>
 
-            <!-- Button triggers new movie to be added -->
-            <input id="add-movie" type="submit" value="Add a Movie, Yo!">
-        </form>
+        </div>
+           
+    </div>
 
+    <div class="container jumbotron pt-3 mt-0">
+        
+        
+        <!-- <h2>gif display</h2> -->
+        
         <!-- Movies will get dumped Here -->
-        <div class="movies-view">
-            <h2>gif display</h2>
+        <h3>Gif Time</h3>
+        <div class="row movies-view">
+            
 
         </div>
     </div>
@@ -44,7 +60,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
+        var movies = ["Cats", "Memes", "Food", "Lewd"];
         var results;
 
         function displayMovieInfo() {
@@ -71,9 +87,10 @@
         function renderButtons() {
             $("#buttons-view").empty();
             for (var i = 0; i < movies.length; i++) {
-                var a = $("<button>");
+                var a = $("<button class = 'rounded mr-1'>");
                 a.addClass("movie");
-                //a.addClass("col-3");
+                
+                //a.addClass("btn-info");
                 a.attr("data-name", movies[i]);
                 a.text(movies[i]);
                 $("#buttons-view").append(a);
@@ -81,11 +98,12 @@
         }
 
         function renderGifs() {
+            $(".movies-view").empty();
             for (var i = 0; i < results.length; i++) {
-                var gifDiv = $("<div>");
+                var gifDiv = $("<div class = 'card' style=' width:250px'>");
 
                 var rating = results[i].rating;
-                var p = $("<p>").text("Rating: " + rating);
+                var p = $("<p class>").text("Rating: " + rating);
                     
                 var personImage = $("<img>");
                 personImage.attr("src", results[i].images.fixed_height_still.url);
@@ -96,6 +114,8 @@
                 personImage.attr("class", "still");
                 
                console.log(results[i].images.fixed_height_still.url);
+               gifDiv.addClass("float-left")
+               //gifDiv.addClass("col-2")
                 gifDiv.addClass("gif");
                 gifDiv.prepend(p);
                 gifDiv.prepend(personImage);
