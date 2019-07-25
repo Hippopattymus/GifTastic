@@ -2,7 +2,6 @@ var gifs = ["Cats", "Memes", "Food", "Sleep"];
 var results;
 
 function displayInfo() {
-
     var gif = $(this).attr("data-name");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
         gif + "&api_key=S0s43WOAT4jzNdL4GICYdNrVfDl0MWMH&limit=10";
@@ -15,8 +14,6 @@ function displayInfo() {
         results = response.data;
         renderGifs();
     });
-
-
 }
 
 function renderButtons() {
@@ -24,7 +21,7 @@ function renderButtons() {
     for (var i = 0; i < gifs.length; i++) {
         var a = $("<button class = 'rounded mr-1'>");
         a.addClass("movie");
-        
+
         //a.addClass("btn-info");
         a.attr("data-name", gifs[i]);
         a.text(gifs[i]);
@@ -58,7 +55,6 @@ function renderGifs() {
         $(".movies-view").prepend(gifDiv);
     }
 }
-
 $("#add-movie").on("click", function (event) {
     event.preventDefault();
     var gif = $("#movie-input").val();
