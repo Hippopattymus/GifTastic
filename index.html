@@ -3,162 +3,35 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Favorite Movies</title>
-    <style type="text/css">
-        button,
-        div,
-        form,
-        input {
-            margin: 10px;
-        }
-    </style>
+    <title>GifTastic</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <div class="container jumbotron mb-3 pb-3 pt-3"> 
+    <div class="container jumbotron mb-3 pb-3 pt-3 mt-2">
         <div class="row">
-            <div class="col-8">
-                    <h1>Uplifting GIFs </h1>
-                    <p style= "margin-left: 25px;">for when the code is hard and you feel bad</p>
+            <div class="col-9">
+                <h1>Uplifting GIFs </h1>
+                <p style="margin-left: 25px;">for when the code is hard and you feel bad</p>
             </div>
-
-            <div class="col">
-                    <form id="movie-form">
-                            <label for="movie-input">Search</label>
-                            <input type="text" id="movie-input"><br>
-                
-                            <!-- Button triggers new movie to be added -->
-                            <input id="add-movie" class = "bg-info rounded ml-5" type="submit" value="Submit">
-                        </form>
+            <div class="col-3 mt-2">
+                <form id="movie-form">
+                    <strong class="ml-5">Add gifs!</strong>
+                    <label for="movie-input"></label>
+                    <input type="text" id="movie-input">
+                    <input id="add-movie" class="bg-info rounded text-white" type="submit" value="Submit">
+                </form>
             </div>
-            <div id="buttons-view" class = "col-12"></div>
-            
-
-
-
+            <div id="buttons-view" class="col-12"></div>
         </div>
-           
     </div>
-
     <div class="container jumbotron pt-3 mt-0">
-        
-        
-        <!-- <h2>gif display</h2> -->
-        
-        <!-- Movies will get dumped Here -->
         <h3>Gif Time</h3>
-        <div class="row movies-view">
-            
-
-        </div>
+        <div class="row movies-view"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-
-        var movies = ["Cats", "Memes", "Food", "Lewd"];
-        var results;
-
-        function displayMovieInfo() {
-
-            var movie = $(this).attr("data-name");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-                movie + "&api_key=S0s43WOAT4jzNdL4GICYdNrVfDl0MWMH&limit=10";
-
-
-
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
-                console.log(response);
-                results = response.data;
-               
-                renderGifs();
-            });
-
-
-        }
-
-        function renderButtons() {
-            $("#buttons-view").empty();
-            for (var i = 0; i < movies.length; i++) {
-                var a = $("<button class = 'rounded mr-1'>");
-                a.addClass("movie");
-                
-                //a.addClass("btn-info");
-                a.attr("data-name", movies[i]);
-                a.text(movies[i]);
-                $("#buttons-view").append(a);
-            }
-        }
-
-        function renderGifs() {
-            $(".movies-view").empty();
-            for (var i = 0; i < results.length; i++) {
-                var gifDiv = $("<div class = 'card' style=' width:250px'>");
-
-                var rating = results[i].rating;
-                var p = $("<p class>").text("Rating: " + rating);
-                    
-                var personImage = $("<img>");
-                personImage.attr("src", results[i].images.fixed_height_still.url);
-                
-                personImage.attr("data-still", results[i].images.fixed_height_still.url);
-                personImage.attr("data-animate", results[i].images.fixed_height.url);
-                personImage.attr("data-state", "still");
-                personImage.attr("class", "still");
-                
-               console.log(results[i].images.fixed_height_still.url);
-               gifDiv.addClass("float-left")
-               //gifDiv.addClass("col-2")
-                gifDiv.addClass("gif");
-                gifDiv.prepend(p);
-                gifDiv.prepend(personImage);
-
-                $(".movies-view").prepend(gifDiv);
-            }
-        }
-
-
-        $("#add-movie").on("click", function (event) {
-            event.preventDefault();
-            var movie = $("#movie-input").val();
-            movies.push(movie);
-            renderButtons();
-
-        });
-
-
-
-
-        
-
-
-        $(document).on("click", ".still", function (event) {
-
-            var state = $(this).attr("data-state");
-            console.log(state);
-            if (state == "still") {
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-            } else {
-                $(this).attr("src", $(this).attr("data-still"));
-                $(this).attr("data-state", "still");
-            }
-        });
-
-
-        $(document).on("click", ".movie", displayMovieInfo);
-
-
-        renderButtons();
-    </script>
-    </div>
+    <script type="text/javascript" src="assets/javascript/giftastic.js"></script>
 </body>
-
 </html>
